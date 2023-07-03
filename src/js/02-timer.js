@@ -36,25 +36,6 @@ function startCountdow() {
   }, 1000);
 }
 
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-
-    if (selectedDate.getTime() < Date.now()) {
-      window.alert('Please choose a date in the future');
-      document.querySelector('button[date-start]').disabled = true;
-    } else {
-      document.querySelector('button[date-start]').disabled = false;
-    }
-  },
-};
-
-flatpickr('#datetime-picker', options);
-
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -73,6 +54,25 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    const selectedDate = selectedDates[0];
+
+    if (selectedDate.getTime() < Date.now()) {
+      window.alert('Please choose a date in the future');
+      document.querySelector('button[date-start]').disabled = true;
+    } else {
+      document.querySelector('button[date-start]').disabled = false;
+    }
+  },
+};
+
+flatpickr('#datetime-picker', options);
 
 console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
