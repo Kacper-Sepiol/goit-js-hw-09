@@ -1,9 +1,18 @@
 'use strict';
 
-const form = document.querySelector('.form');
-const inputDelay = document.querySelector('input[name="delay"]');
-const inputStep = document.querySelector('input[name="step"]');
-const inputAmount = document.querySelector('input[name="amount"]');
+const delayInput = document.querySelector('input[name="delay"]');
+const stepInput = document.querySelector('input[name="step"]');
+const amountInput = document.querySelector('input[name="amount"]');
+
+document.querySelector('.form').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  const Delay = parseInt(delayInput.value);
+  const step = parseInt(stepInput.value);
+  const amount = parseInt(amountInput.value);
+
+  createPromises(Delay, step, amount);
+});
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
@@ -18,35 +27,18 @@ function createPromise(position, delay) {
   });
 }
 
-function createPromises(amount, initialDelay, step) {
-  const promises = [];
+function createPromises(firstDelay, step, amount) {
+  let currentDelay = firstDelay;
 
-  for (let i = 0; i < amount; i++) {
-    const position = i + 1;
-    const delay = initialDelay + i * step;
-    const promise = createPromise(position, delay);
-    promises.push(promise);
-  }
-
-  return promises;
-}
-
-form.addEventListener('submit', event => {
-  event.preventDefault();
-
-  const delay = parseInt(inputDelay.value);
-  const step = parseInt(inputStep.value);
-  const amount = parseInt(inputAmount.value);
-
-  createPromises(amount, delay, step)
-    .then(results => {
-      results.forEach(({ position, delay }) => {
+  for (let i = 1; i <= amount; i++) {
+    createPromise(i, currentDelay)
+      .then(({ position, delay }) => {
         console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-      });
-    })
-    .catch(results => {
-      results.forEach(({ position, delay }) => {
+      })
+      .catch(({ position, delay }) => {
         console.log(`❌ Rejected promise ${position} in ${delay}ms`);
       });
-    });
-});
+
+    currentDelay += step;
+  }
+}
