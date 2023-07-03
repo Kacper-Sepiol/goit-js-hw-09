@@ -36,12 +36,23 @@ function startCountdow() {
     const currentTime = Date.now();
     const timeDifference = selectedDate.getTime() - currentTime;
 
-    if (timerDifference <= 0) {
+    if (timeDifference <= 0) {
       clearInterval(countdownInterval);
       countdownElement.innerHTML = "<span class='value'>00</span>".repeat(4);
       return;
     }
-  });
+
+    const { days, hours, minutes, seconds } = convertMs(timeDifference);
+
+    countdownElement.querySelector('[data-days]').textContent =
+      addLeadingZero(days);
+    countdownElement.querySelector('[data-hours]').textContent =
+      addLeadingZero(hours);
+    countdownElement.querySelector('[data-minutes]').textContent =
+      addLeadingZero(minutes);
+    countdownElement.querySelector('[data-seconds]').textContent =
+      addLeadingZero(seconds);
+  }, 1000);
 }
 
 function convertMs(ms) {
@@ -66,3 +77,7 @@ function convertMs(ms) {
 console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
 console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+
+document
+  .querySelector('button[data-start]')
+  .addEventListener('click', startCountdow);
