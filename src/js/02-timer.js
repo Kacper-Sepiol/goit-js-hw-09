@@ -3,25 +3,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-
-    if (selectedDate.getTime() < Date.now()) {
-      window.alert('Please choose a date in the future');
-      document.querySelector('button[date-start]').disabled = true;
-    } else {
-      document.querySelector('button[date-start]').disabled = false;
-    }
-  },
-};
-
-flatpickr('#datetime-picker', options);
-
 function addLeadingZero(value) {
   return value.toString().padStart(2, '0');
 }
@@ -54,6 +35,25 @@ function startCountdow() {
       addLeadingZero(seconds);
   }, 1000);
 }
+
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    const selectedDate = selectedDates[0];
+
+    if (selectedDate.getTime() < Date.now()) {
+      window.alert('Please choose a date in the future');
+      document.querySelector('button[date-start]').disabled = true;
+    } else {
+      document.querySelector('button[date-start]').disabled = false;
+    }
+  },
+};
+
+flatpickr('#datetime-picker', options);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
