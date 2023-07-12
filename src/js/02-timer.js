@@ -19,7 +19,6 @@ function startCountdow() {
 
     if (timeDifference <= 0) {
       clearInterval(countdownInterval);
-      countdownElement.innerHTML = "<span class='value'>00</span>".repeat(4);
       return;
     }
 
